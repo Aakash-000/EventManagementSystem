@@ -2,7 +2,7 @@ import React from 'react';
 import  styled from '@emotion/styled';
 import { Container, Typography, TextField, Button } from '@mui/material';
 import loginimage from '../images/forlogin.jpg'
-import EmailIcon from '@mui/icons-material/Email';
+
 
 const ContainerWrapper = styled('div')`
   display: flex;
@@ -16,7 +16,7 @@ const ContainerWrapper = styled('div')`
 const LeftWrapper = styled('div')({
   display:'flex',
   flex:0.65,
-  marginTop:'80px'
+  height:'100vh'
 })
 
 const RightWrapper = styled(Container)({
@@ -73,7 +73,7 @@ const LoginPage = () => {
   return (
     <ContainerWrapper component="main">
       <LeftWrapper>
-      <img src={loginimage} width="100%" height="100%" alt="Login"/>
+      <img src={loginimage} style={{width:'100%',backgroundSize:'object-fit'}} alt="Login"/>
       </LeftWrapper>
       <RightWrapper>
       <FormWrapper onSubmit={handleSubmit}>

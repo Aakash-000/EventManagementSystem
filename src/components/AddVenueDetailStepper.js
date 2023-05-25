@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import { Container, ThemeProvider, createTheme } from '@mui/material';
 import VenueDetailImgDesc from './VenueDetailImgDesc';
 import EventServiceStepper from './EventServiceStepper';
-import EventPriceDetail from './EventPriceDetail';
+import EventPricingAdd from './EventPricingAdd';
 
 const steps = ['Image and Description', 'Event Type and Services', 'Pricing'];
 
@@ -112,7 +112,7 @@ export default function AddVenueDetailStepper() {
             <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
               {activeStep == 0 ? <VenueDetailImgDesc/>
                : activeStep == 1 ? <EventServiceStepper/>  
-               :   <EventPriceDetail/>} 
+               :   <EventPricingAdd/>} 
             </Typography>
             <Container sx={{display:'flex',flexDirection:'row',justifyContent:'space-between',alignItems:'center',}}>
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>

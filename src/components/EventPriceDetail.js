@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Checkbox, Container, FormControl, Grid, InputLabel, ListItemText, MenuItem, Select, TextField, ThemeProvider, Typography, createTheme } from '@mui/material'
+import { Button, Checkbox, Container, FormControl, Grid, InputLabel, ListItemText, MenuItem, Select, TextField, ThemeProvider, Typography, createTheme } from '@mui/material'
 import React,{useState} from 'react'
 import {eventNames} from './EventArray'
 
@@ -7,6 +7,15 @@ const RoleDropdown = styled(TextField)`
   && {
     width: 100%;
   }
+`;
+
+const SubmitButton = styled(Button)`
+  background-color: #384E77; /* Update the button background color */
+  color: #E6F9AF; /* Set the text color to white */
+  &:hover {
+    background-color: #384E77; /* Update the button background color on hover */
+    color: #E6F9AF;
+  },
 `;
 
 const theme = createTheme({
@@ -45,10 +54,15 @@ const theme = createTheme({
 
 function EventPriceDetail() {
     const [role, setRole] = useState("");
-    const [pricing,setPricing] = useState("");
+    const [priceValue,setPriceValue] = useState("");
     const[pref,setPref] = useState("");
     const[dropdownValues,setDropdownValues] = useState({});
     
+
+    const handleEventPriceSubmit = (e)=> {
+      e.preventDefault();
+      console.log({role,pref,dropdownValues,priceValue})
+    }
 
     const handleRoleChange = (event) => {
         setRole(event.target.value);
@@ -60,6 +74,8 @@ function EventPriceDetail() {
           [event.target.name]: event.target.value,
         }));
     }
+
+    console.log(dropdownValues)
 
     const eventValues = ()=> {
       for(let item in eventNames){
@@ -85,11 +101,8 @@ function EventPriceDetail() {
 
     return (
       <ThemeProvider theme={theme}>
-    <Container maxWidth={'xl'}>
-        <Typography variant='body2' sx={{fontFamily:'IBM Plex Sans, sans-serif',fontWeight:'600',
-        marginBottom:'30px'}}>
-        <li sx={{padding:'0px'}}> Set Pricing Detail </li></Typography>
-        <Grid container spacing={1} sx={{display:'flex',flexDirection:'row',gap:'10px'}}>
+        <Container maxWidth={'xl'} sx={{marginBottom:'10px'}}>
+        <Grid container spacing={1} sx={{display:'flex',flexDirection:'row',alignItems:'center',gap:'20px'}}>
         <Grid xs={2}>
               <RoleDropdown
               select
@@ -106,7 +119,7 @@ function EventPriceDetail() {
               required
               >                                       
               {Object.keys(eventNames).map((item)=>(
-              <MenuItem value={item}
+              <MenuItem value={item} required
               sx={{
                 fontSize:'13px',
                 fontFamily:'Roboto, Helvetica, sans-serif'
@@ -119,6 +132,7 @@ function EventPriceDetail() {
               select
               disabled={role == "" ? true : false}
               label="Preference"
+              name="preference"
               sx={{cursor: role == "" ? 'not-allowed' : 'pointer'}}
               InputProps={{
                 style: { fontSize: '14px',fontFamily:'Roboto, Helvetica, sans-serif'}
@@ -149,14 +163,14 @@ function EventPriceDetail() {
               <Select
                 labelId="dropdown1-label"
                 id="dropdown0"
-                name="0"
+                name="recipeitem"
                 multiple
                 InputLabelProps={{
                   style: { fontSize: '13px' ,fontFamily:'Roboto, Helvetica, sans-serif'},
                 }}
                 variant="outlined"
                 disabled={pref == "" ? true : false}
-                value={dropdownValues[0] || []}
+                value={dropdownValues.recipeitem || []}
                 onChange={handleDropdownChange}
                 renderValue={(selected) => selected.join(',')}
               >
@@ -172,14 +186,24 @@ function EventPriceDetail() {
               </Grid>
               <Grid xs={2}>
               <TextField
-              label="Capacity(In Person)"
+              type="number"
+              label="PriceValue"
               name="textField1"
-              value={priceValue.pricevalue || ''}
+              value={priceValue}
               onChange={(e)=>setPriceValue(e.target.value)}
               fullWidth
-              margin="normal"
               />
               </Grid>
+              <SubmitButton type="submit" disableRipple fullWidth variant="contained" sx={{
+              fontFamily: 'Lato, sans-serif',
+              fontFamily: 'Montserrat , sans-serif',
+              fontSize: '14px',
+              height:'50px',
+              fontWeight: 'bold',
+              width:'12%'
+          }} color="primary" onClick={handleEventPriceSubmit}>
+          Submit
+        </SubmitButton>
           </Grid>
     </Container>
     </ThemeProvider>
