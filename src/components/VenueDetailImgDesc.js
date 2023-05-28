@@ -1,43 +1,67 @@
 import styled from '@emotion/styled';
-import { Container, Grid, TextField } from '@mui/material';
+import { Button, Container, Grid, TextField, createTheme } from '@mui/material';
 import React,{useState} from 'react'
-import {  createTheme, ThemeProvider } from '@mui/material';
+import  {  ThemeProvider } from '@mui/material';
 import {  VisibilityOutlined } from '@mui/icons-material';
+import { Form } from 'react-router-dom';
 
 
 const FileInputLabel = styled.label`
   display: block;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 14px;
-  font-weight: bold;
+  font-weight:500;
 `;
-
 
 const theme = createTheme({
     components:{
         MuiInputBase:{
             styleOverrides:{
-                root:{
-                    '& .MuiInputBase-input':{
+                input:{
                         fontSize:'14px',
-                        fontFamily:'IBM Plex Sans, sans-serif',
+                        fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
                         fontWeight:'500',
                         letterSpacing:'0.3px'
-                    }
                 }
             }
-        },MuiFormLabel:{
-            styleOverrides:{
-                root:{
-                    '&.MuiFormLabel-root':{
-                        fontSize:'13px',
-                        fontFamily:'IBM Plex Sans, sans-serif',
-                        fontWeight:'500',
-                        letterSpacing:'0.3px'
-                    }
-                }
+        },
+    MuiFormLabel:{
+        styleOverrides:{
+            root:{
+                    fontSize:'13px',
+                    fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+                    fontWeight:'500',
+                    letterSpacing:'0.3px'
+            }
+        }
+    },
+    MuiContainer:{
+        styleOverrides:{
+            root:{
+                display:'flex',flexDirection:'column',gap:'20px',marginTop:'20px'
+            }
+        }
+    },
+    MuiGrid:{
+        styleOverrides:{
+            root:{
+                display:'flex',flexDirection:'row',gap:'10px',alignItems:'center'
+            }
+        }
+    },
+    MuiButton:{
+        styleOverrides:{
+            root:{
+                "&:hover":{backgroundColor: 'rgba(0, 0, 0, 0.05)',color:'#001'},
+                fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+  
+              fontWeight:'500',height:'100%',marginTop:'15px',   
+              backgroundColor: 'rgba(0, 0, 0, 0.05)',boxShadow:'0px 0.5px 0.5px 0px rgba(0, 0, 0, 0.3)',
+              color:'#001',borderRadius:'20px'
             }
         }
     }
+}
 });
 
 function VenueDetailImgDesc() {
@@ -65,8 +89,10 @@ function VenueDetailImgDesc() {
       };
 
   return (
-        <Container maxWidth={'xl'} sx={{display:'flex',flexDirection:'column',gap:'20px',marginTop:'20px'}}>
-        <Grid item xs={12} sx={{display:'flex',flexDirection:'row',gap:'10px',alignItems:'center'}}>
+    <ThemeProvider theme={theme}>
+    <Form onSubmit={()=>console.log("hello")}>
+    <Container maxWidth={'xl'} >
+        <Grid item xs={12} >
             <FileInputLabel>
               Upload venue verification file(PDF or Image):
             </FileInputLabel>
@@ -79,11 +105,15 @@ function VenueDetailImgDesc() {
               />
         <VisibilityOutlined onClick={handleOverlayClick} sx={{cursor:'pointer'}}/>
         </Grid>
-        <ThemeProvider theme={theme}>
-        <TextField type="textarea" value={value} onChange={handleChange} label="Write Description" multiline 
-        fullWidth rows={10}/>
-        </ThemeProvider>
+        <TextField type="textarea" value={value} required onChange={handleChange} 
+        label="Write Description" multiline 
+        fullWidth rows={8}/>
+        <Grid xs={2}>
+        <Button type="submit">Submit</Button>
+        </Grid>
         </Container>
+        </Form>
+        </ThemeProvider>
   )
 }
 

@@ -1,7 +1,7 @@
-import React from 'react'
-import HeroSectionComponent from './HeroSectionComponent'
-import BodySectionComponent from './BodySectionComponent'
-import FooterSectionComponent from './FooterSectionComponent'
+import React,{lazy} from 'react'
+const HeroSectionComponent = lazy(()=> import('./HeroSectionComponent'));
+const BodySectionComponent = lazy(()=> import('./BodySectionComponent'));
+const FooterSectionComponent = lazy(()=> import('./FooterSectionComponent'));
 
 function LandingPage() {
   return (

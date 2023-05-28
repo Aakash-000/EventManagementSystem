@@ -1,7 +1,8 @@
 import React,{useState} from 'react'
-import { FormControl, InputLabel, Select, MenuItem, Checkbox, ListItemText, Grid, Typography} from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem, Checkbox, ListItemText, Grid, Typography, Button} from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import styled from '@emotion/styled';
+import { Form } from 'react-router-dom';
 
 const arrayofrecipedetail = {
     "PersonalProgram":[
@@ -55,7 +56,8 @@ const arrayofrecipedetail = {
         styleOverrides: {
           root: {
             fontSize:'13px',
-            fontFamily:'Roboto, Helvetica, sans-serif',
+            fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+
             paddingTop:'3px'
           },
         },
@@ -64,13 +66,16 @@ const arrayofrecipedetail = {
         styleOverrides: {
           root: {
             fontSize:'14px',
-            fontFamily:'Roboto, Helvetica, sans-serif'
+            fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+
           },
         },
       },MuiTypography:{
         styleOverrides:{
           root:{
-            fontSize:'14px'
+            fontSize:'14px',
+            fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+
           }
         }
       },MuiSvgIcon:{
@@ -90,7 +95,7 @@ const arrayofrecipedetail = {
     marginTop:'5px'
   })
 
-export function EventServiceRecipeDetail(){
+export default function EventServiceRecipeDetail(){
 
     
     const [dropdownValues, setDropdownValues] = useState({});
@@ -104,19 +109,23 @@ export function EventServiceRecipeDetail(){
 
       return(
       <LowerSectionWrapper>
-      <Typography variant='body2' sx={{fontFamily:'IBM Plex Sans, sans-serif',fontWeight:'600'}}>
+        <Form onSubmit={()=>console.log("hello")}>
+      <Typography variant='body2' sx={{  fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+      fontWeight:'600'}}>
       <li sx={{padding:'0px'}}>Add Recipe Detail</li></Typography>
-      <Grid container spacing={1}>
+      <Grid container spacing={1} sx={{display:'flex',flexDirection:'row',alignItems:'center',gap:'15px'}}>
       <Grid item xs={2}>
       <ThemeProvider theme={theme}>
       <FormControl fullWidth margin="normal">
         <InputLabel id="dropdown0-label" sx={{fontSize:'13px',paddingLeft:'4px',backgroundColor:'#fff',width:'83px',
-          fontFamily:'Roboto, Helvetica, sans-serif',paddingTop:'3px'}}>Event Types</InputLabel>
+            fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+            paddingTop:'3px'}}>Event Types</InputLabel>
         <Select
           labelId="dropdown1-label"
           id="dropdown0"
           name="0"
           multiple
+          required
           value={dropdownValues[0] || []}
           onChange={handleDropdownChange}
           renderValue={(selected) => selected.join(', ')}
@@ -144,11 +153,13 @@ export function EventServiceRecipeDetail(){
       <FormControl fullWidth margin="normal">
         <InputLabel id={`dropdown${index+1}-label`}
         sx={{fontSize:'13px',backgroundColor:'#fff',width:'140px',paddingLeft:'4px',
-        fontFamily:'Roboto, Helvetica, sans-serif',paddingTop:'3px'}}>Recipe for {item}</InputLabel>
+        fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+        paddingTop:'3px'}}>Recipe for {item}</InputLabel>
           <Select
           id={`dropdown${index+1}`}
           name={`${index+1}`}
           multiple
+          required
           value={dropdownValues[index+1] || []}
           onChange={handleDropdownChange}
           renderValue={(selected) => selected.join(', ')}
@@ -177,7 +188,17 @@ export function EventServiceRecipeDetail(){
       </FormControl>
       </Grid>))}
       </ThemeProvider>
+      <Button type="submit"
+                  sx={{":hover":{backgroundColor: 'rgba(0, 0, 0, 0.05)',color:'#001'},
+                  fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+
+                  fontWeight:'550',height:'100%',marginTop:'15px', boxShadow:'0px 0.5px 0.5px 0px rgba(0, 0, 0, 0.3)',  
+                  backgroundColor: 'rgba(0, 0, 0, 0.05)',color:'#001',borderRadius:'20px'}}
+                  >
+                    Submit
+                  </Button>
       </Grid>
+      </Form>
       </LowerSectionWrapper>
       )
 }

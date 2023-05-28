@@ -1,7 +1,9 @@
 import React from 'react';
+import { lazy } from 'react';
 import{ Container } from '@mui/material';
-import EventServiceEventDetail from './EventServiceEventDetail';
-import { EventServiceRecipeDetail } from './EventServiceRecipeDetail';
+const EventServiceEventDetail = lazy(()=> import('./EventServiceEventDetail'));
+const EventServiceRecipeDetail  = lazy(()=> import('./EventServiceRecipeDetail'));
+
 
 
 const EventServiceStepper = () => {

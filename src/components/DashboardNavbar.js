@@ -1,6 +1,6 @@
 import React,{useContext, useState} from 'react';
 import { styled } from '@mui/system';
-import { AppBar, Toolbar, Typography,IconButton, Button } from '@mui/material';
+import { AppBar, Toolbar, Typography,IconButton, Button, createStyles, createTheme } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { AuthContext } from '../context/AuthContext';
@@ -12,6 +12,19 @@ import Divider from '@mui/material/Divider';
 import Tooltip from '@mui/material/Tooltip';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import { ThemeProvider } from '@emotion/react';
+
+const dashboardnavtheme = createTheme({
+  components:{
+    MuiPaper:{
+      styleOverrides:{
+        root:{
+          boxShadow:'0px 2px 4px -1px rgba(0,0,0,0.2)'
+        }
+      }
+    }
+  }
+});
 
 const NavbarWrapper = styled(AppBar)(({siderbarT})=>({
   width:siderbarT ? `calc(100vw - 240px)`: `calc(100vw - 64px)`,
@@ -23,27 +36,27 @@ const NavbarWrapper = styled(AppBar)(({siderbarT})=>({
 const ToolbarWrapper = styled(Toolbar)({
   display: 'flex',
   alignItems: 'center',
-  padding: '0 16px'
+  padding: '0 16px',
 });
 
 const Logo = styled(Typography)({
   flexGrow: 1,
   fontWeight: 600,
   color:'#5B7B7A',
-  fontFamily:'Helvetica,Arial,sans-serif'
+  fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif'
 });
 
-const NavButton = styled(Button)`
-  margin-left:10px;
-  color:#5B7B7A;
-  font-size:14px;
-  font-family: 'Helvetica',sans-serif;
-  font-weight: 600;
-  text-tansform: none;
-  &:hover{
-    color: #3C887E;
+const NavButton = styled(Button)({
+  marginLeft:'10px',
+  color:'#5B7B7A',
+  fontSize:'14px',
+  fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+  fontWeight: 600,
+  textTansform: 'none',
+  '&:hover':{
+    color: '#3C887E',
   }
-`;
+})
 
 const DashboardNavbar = () => {
     const[state,setState] = useContext(AuthContext);
@@ -62,11 +75,14 @@ const DashboardNavbar = () => {
       setState({...state,siderbarToggle:!state.siderbarToggle});
     };
   
-    
+
     return (
-    <NavbarWrapper siderbarT={siderbarT} position="static">
+      <ThemeProvider theme={dashboardnavtheme}>
+    <NavbarWrapper siderbarT={siderbarT} position="sticky" 
+     sx={{backdropFilter: state.pageScroll ? 'blur(10px)' : 'blur(0px)'}} >
       <ToolbarWrapper>
-      <IconButton sx={{marginRight:'10px',color:'#5B7B7A'}} color="inherit" onClick={toggleSidebar}>
+      <IconButton sx={{marginRight:'10px',color:'#5B7B7A'
+    }} color="inherit" onClick={toggleSidebar}>
           {state.siderbarToggle ? <CloseIcon /> : <MenuIcon />}
         </IconButton>
         <Logo variant="h7">Dashboard</Logo>
@@ -81,7 +97,8 @@ const DashboardNavbar = () => {
           >
             <Avatar sx={{ width: 32, height: 32,color:'#4E6151',
             fontSize:'14px',
-            fontFamily:'Roboto,sans-serif',letterSpacing:'0px',fontWeight:'550'
+            fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+            letterSpacing:'0px',fontWeight:'550'
             }}>AD</Avatar>
           </IconButton>
         </Tooltip>
@@ -124,13 +141,15 @@ const DashboardNavbar = () => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem sx={{ fontSize:'14px',
-            fontFamily:'Oxygen,Roboto,sans-serif',
-            fontWeight:'500'}} onClick={handleClose}>
+             fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+
+            fontWeight:'300'}} onClick={handleClose}>
           <Avatar/> Profile
         </MenuItem>
         <Divider />
         <MenuItem  sx={{ fontSize:'14px',
-            fontFamily:'Oxygen,Roboto,sans-serif',
+              fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+
             fontWeight:'500'}}
         onClick={handleClose}>
           <ListItemIcon sx={{marginRight:'-5px'}}>
@@ -139,16 +158,21 @@ const DashboardNavbar = () => {
           Settings
         </MenuItem>
         <MenuItem sx={{ fontSize:'14px',
-            fontFamily:'Oxygen,Roboto,sans-serif',
+              fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+
             fontWeight:'500'}} onClick={handleClose}>
           <ListItemIcon sx={{marginRight:'-5px'}}>
-            <Logout sx={{width: 21, height: 21, margin:'0px 0px 0px -3px'}} />
+            <Logout sx={{
+                fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+
+              width: 21, height: 21, margin:'0px 0px 0px -3px'}} />
           </ListItemIcon>
           Logout
         </MenuItem>
       </Menu>
       </ToolbarWrapper>
     </NavbarWrapper>
+    </ThemeProvider>
   );
 };
 

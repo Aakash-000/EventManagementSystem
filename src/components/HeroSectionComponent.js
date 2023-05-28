@@ -78,10 +78,12 @@ const HeroSectionComponent = () => {
 const CarouselItem = ({ item }) => {
   return (
     <div>
-      <CarouselImage src={item.image} alt="" />
+      <CarouselImage src={item.image} alt="" loading='lazy'/>
       <CarouselText>
-        <HeroText variant="h6">{item.text}</HeroText>
-        <HeroSubtext variant="body2" align='center'>{item.subtext}</HeroSubtext>
+        <HeroText variant="h6" sx={{fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+}}>{item.text}</HeroText>
+        <HeroSubtext variant="body2" align='center' sx={{fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+}} >{item.subtext}</HeroSubtext>
       </CarouselText>
     </div>
   );

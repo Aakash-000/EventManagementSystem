@@ -10,13 +10,34 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import {AuthContext} from '../context/AuthContext.js'
-import { Typography } from '@mui/material';
+import { Typography, createTheme } from '@mui/material';
+import { ThemeProvider } from '@emotion/react';
+import { Link } from 'react-router-dom';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import UpdateIcon from '@mui/icons-material/Update';
 
 const drawerWidth = 240;
 
+const Dashboardsidebartheme = createTheme({
+  components:{
+    MuiPaper:{
+      styleOverrides:{
+        root:{
+          backgroundColor:'#fafafa',
+          borderRight: '0.5px solid rgb(230, 227, 227)'
+        }
+      }
+    },
+    MuiSvgIcon:{
+      styleOverrides:{
+        root:{
+          width: 18, height: 18,color: "#2B709E"
+        }
+      }
+    }
+  }
+})
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -67,12 +88,17 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-
+const sidebarItemDetail = [
+  {text:"Home",route:"/dashboard/preview",icon:<DashboardIcon/>},
+  {text:"Update Details",route:"/dashboard/addVenueDetails",icon:<UpdateIcon/>}
+  ]
    
-export default function MiniDrawer() {
+
+export default function DashboardSidebar() {
   
   const [open, setOpen] = React.useState(false);
   const [state,setState] = React.useContext(AuthContext);
+  console.log(state.isofType);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -83,20 +109,21 @@ export default function MiniDrawer() {
   };
 
   return (
+    <ThemeProvider theme={Dashboardsidebartheme}>
     <Box sx={{ display: 'flex'}}>
       <CssBaseline />
       <Drawer variant="permanent"  open={state.siderbarToggle} >
         <DrawerHeader>
         </DrawerHeader>
         <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+        <List >
+          {sidebarItemDetail.map((item, index) => (
+            <ListItem key={item.text} disablePadding sx={{ display: 'block' }}>
+              <Link to={`${item.route}`} style={{textDecoration:'none',color:'GrayText'}}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
                   justifyContent: state.siderbarToggle ? 'initial' : 'center',
-                  
                   px: 2.5,
                 }}
               >
@@ -108,23 +135,26 @@ export default function MiniDrawer() {
                     justifyContent: 'center',
                   }}
                 >
-                  {index % 2 === 0 ? <InboxIcon sx={{width: 21, height: 21}} /> : <MailIcon sx={{width: 21, height: 21}}/>}
+                  {item.icon}
                 </ListItemIcon>
                 
                 <ListItemText 
                 disableTypography
                 primary={<Typography variant='body2' style={{fontSize:'14px',
-                fontFamily:'Oxygen,Roboto,Arial,sans-serif',fontWeight:'500'
-                ,opacity: state.siderbarToggle ? 1 : 0}}>{text}</Typography>}/>
-                
+                fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+                fontWeight:'500',
+                color:'#264653'
+                ,opacity: state.siderbarToggle ? 1 : 0}}>{item.text}</Typography>}/>
               </ListItemButton>
+              </Link>
             </ListItem>
           ))}
         </List>
         <Divider />
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+        {sidebarItemDetail.map((item, index) => (
+            <ListItem key={item.text} disablePadding sx={{ display: 'block' }}>
+              <Link to={`${item.route}`} style={{textDecoration:'none',color:'GrayText'}}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -134,26 +164,30 @@ export default function MiniDrawer() {
               >
                 <ListItemIcon
                   sx={{
+                    
                     minWidth: 0,
                     mr: state.siderbarToggle ? 2.5 : 'auto',
                     justifyContent: 'center',
                   }}
                 >
-                  {index % 2 === 0 ? <InboxIcon sx={{width: 21, height: 21}} /> : <MailIcon sx={{width: 21, height: 21}}/>}
+                  {item.icon}
                 </ListItemIcon>
                 
                 <ListItemText 
                 disableTypography
                 primary={<Typography variant='body2' style={{fontSize:'14px',
-                fontFamily:'Oxygen,Roboto,Arial,sans-serif',fontWeight:'500'
-                ,opacity: state.siderbarToggle ? 1 : 0}}>{text}</Typography>}/>
-                
+                fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+                fontWeight:'500',
+                color:'#264653'
+                ,opacity: state.siderbarToggle ? 1 : 0}}>{item.text}</Typography>}/>
               </ListItemButton>
+              </Link>
             </ListItem>
           ))}
         </List>
       </Drawer>
     </Box>
+    </ThemeProvider>
   );
 }
 

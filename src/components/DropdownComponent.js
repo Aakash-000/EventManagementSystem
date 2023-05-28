@@ -9,7 +9,7 @@ const RoleDropdown = styled(TextField)`
   }
 `;
 
-export function DrowdownComponentNames({role,setRole,handleRoleChange,eventDetails}) {
+export function DropdownComponentNames({role,setRole,handleRoleChange,eventDetails}) {
     
     handleRoleChange = (event) => {
         setRole(event.target.value);
@@ -46,7 +46,7 @@ export function DrowdownComponentNames({role,setRole,handleRoleChange,eventDetai
   )
 }
 
-export function DrowdownComponentValues({role,pricing,eventValues,setPricing,handlePricing}) {
+export function DropdownComponentValues({role,pricing,eventValues,setPricing,handlePricing}) {
 
     handlePricing = (event)=> {
         setPricing(event.target.value);

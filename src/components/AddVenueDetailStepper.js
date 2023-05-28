@@ -1,5 +1,5 @@
 
-import * as React from 'react';
+import React,{ lazy }  from 'react';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -7,20 +7,23 @@ import StepButton from '@mui/material/StepButton';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Container, ThemeProvider, createTheme } from '@mui/material';
-import VenueDetailImgDesc from './VenueDetailImgDesc';
-import EventServiceStepper from './EventServiceStepper';
-import EventPricingAdd from './EventPricingAdd';
+import { AuthContext } from '../context/AuthContext';
+import styled from '@emotion/styled';
+const VenueDetailImgDesc = lazy(()=>import('./VenueDetailImgDesc')); 
+const EventServiceStepper = lazy(()=> import('./EventServiceStepper'));
+const EventPricingAdd = lazy(()=> import('./EventPricingAdd'));
+
 
 const steps = ['Image and Description', 'Event Type and Services', 'Pricing'];
 
-const themeforbackbtn = createTheme({
+const theme = createTheme({
   components:{
     MuiButton:{
       styleOverrides:{
         root:{
           backgroundColor: '#384E77', /* Update the button background color */
           color: '#E6F9AF',
-          fontFamily:'Roboto,Monserrat,sans-serif',
+          fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
           fontWeight:'500', /* Set the text color to white */
           '&:hover':{
           backgroundColor:'#384E77', /* Update the button background color on hover */
@@ -28,15 +31,44 @@ const themeforbackbtn = createTheme({
           }
         }
       }
+    },
+    MuiStepLabel:{
+        styleOverrides:{
+          label:{
+            fontWeight:'500',
+            fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif'
+            ,fontSize:'14px',
+            color:'#000'
+          }
+        }
+    },MuiSvgIcon:{
+      styleOverrides:{
+        root:{
+          fontSize:'18px'
+        }
+      }
+  },MuiStepIcon:{
+      styleOverrides:{
+        text:{
+          fontSize:'14px',
+          fontWeight:'500',
+          fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif'
+        }
+      }
     }
   }
 });
 
-
+const ContainerWrapper = styled(Container)(({siderbarT})=>({
+  width:siderbarT ? `calc(100vw - 240px)`: `calc(100vw - 64px)`,
+  marginLeft: siderbarT ? '240px' : '64px'
+}));
 
 export default function AddVenueDetailStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState({});
+  const[state] = React.useContext(AuthContext);
+  const siderbarT = state.siderbarToggle;
 
   const totalSteps = () => {
     return steps.length;
@@ -54,7 +86,7 @@ export default function AddVenueDetailStepper() {
     return completedSteps() === totalSteps();
   };
 
-  const handleNext = () => {
+  const handleNext = (e) => {
     const newActiveStep =
       isLastStep() && !allStepsCompleted()
         ? // It's the last step, but not all steps have been completed,
@@ -64,59 +96,38 @@ export default function AddVenueDetailStepper() {
     setActiveStep(newActiveStep);
   };
 
-  const handleBack = () => {
+  const handleBack = (e) => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleStep = (step) => () => {
+  const handleStep = (step) => (e) => {
     setActiveStep(step);
   };
 
-  const handleComplete = () => {
-    const newCompleted = completed;
-    newCompleted[activeStep] = true;
-    setCompleted(newCompleted);
-    handleNext();
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-    setCompleted({});
-  };
-
   return (
-    <Container maxWidth={'lg'} sx={{marginTop:'50px'}}>
+    <ContainerWrapper siderbarT={siderbarT} position="static" maxWidth={'lg'} sx={{marginTop:'50px'}}>
     <Box sx={{ width: '100%' }}>
+      <ThemeProvider theme={theme}>
       <Stepper nonLinear activeStep={activeStep}>
         {steps.map((label, index) => (
           <Step key={label} completed={completed[index]}>
-            <StepButton color="inherit" disableRipple onClick={handleStep(index)}>
+            <StepButton  disableRipple onClick={handleStep(index)}>
               {label}
             </StepButton>
           </Step>
         ))}
       </Stepper>
+      </ThemeProvider>
       <div>
-        {allStepsCompleted() ? (
-          <React.Fragment>
-            <Typography sx={{ mt: 2, mb: 1 }}>
-              All steps completed - you&apos;re finished
-            </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-              <Box sx={{ flex: '1 1 auto' }} />
-              <Button disableRipple onClick={handleReset}>Reset</Button>
-            </Box>
-          </React.Fragment>
-        ) : (
           <React.Fragment>
             <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
               {activeStep == 0 ? <VenueDetailImgDesc/>
-               : activeStep == 1 ? <EventServiceStepper/>  
+               : activeStep == 1 ? <EventServiceStepper/>
                :   <EventPricingAdd/>} 
             </Typography>
             <Container sx={{display:'flex',flexDirection:'row',justifyContent:'space-between',alignItems:'center',}}>
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <ThemeProvider theme={themeforbackbtn}>
+            <ThemeProvider theme={theme}>
               <Button
                 disabled={activeStep === 0}
                 disableRipple
@@ -138,27 +149,10 @@ export default function AddVenueDetailStepper() {
                 Next
               </Button>
               </Box>
-              {activeStep !== steps.length &&
-                (completed[activeStep] ? (
-                  <Typography variant="caption" sx={{ display: 'inline-block' }}>
-                    Step {activeStep + 1} already completed
-                  </Typography>
-                ) : (
-                  <Button disableRipple 
-                  sx={{":hover":{backgroundColor: 'rgba(0, 0, 0, 0.03)',color:'#001'},
-                  fontWeight:'550',
-                  backgroundColor: 'rgba(0, 0, 0, 0.03)',color:'#001',borderRadius:'20px'}}
-                  onClick={handleComplete}>
-                    {completedSteps() === totalSteps() - 1
-                      ? 'Finish'
-                      : 'Complete Step'}
-                  </Button>
-                ))}
             </Container>
           </React.Fragment>
-        )}
       </div>
     </Box>
-    </Container>
+    </ContainerWrapper>
   );
 }

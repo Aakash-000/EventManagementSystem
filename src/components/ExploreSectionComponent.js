@@ -1,4 +1,5 @@
 import React,{useState} from 'react';
+import { lazy } from 'react';
 import dayjs from 'dayjs';
 import { Button, Skeleton, TextField} from '@mui/material'
 import  styled  from '@emotion/styled';
@@ -9,20 +10,25 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { useJsApiLoader,Autocomplete } from '@react-google-maps/api';
 import Stack from '@mui/material/Stack';
-import { DrowdownComponentNames, DrowdownComponentValues } from './DrowdownComponent';
-import GridItemsExplorePage from './GridItemsExplorePage';
+
+const DropdownComponentNames = lazy(()=> import("./DropdownComponent").then(module=>{
+  return { default: module.DropdownComponentNames}
+}));
+const DropdownComponentValues = lazy(()=>import("./DropdownComponent").then(module=>{
+  return { default: module.DropdownComponentValues}
+}));
+const GridItemsExplorePage = lazy(()=> import('./GridItemsExplorePage'));
 
 
 
 const nextMonth = dayjs().add(30,'day');
 const tomorrow = dayjs().add(1,'day');
 
-const CustomTextField = styled(TextField )`
-  && {
-    font-family: 'Arial', sans-serif;
-    font-weight: bold;
-  }
-`;
+const CustomTextField = styled(TextField )({
+    fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+    fontWeight: 'bold',
+  
+});
 
 const RoleDropdown = styled(TextField)`
   && {
@@ -33,8 +39,8 @@ const SubmitButton = styled(Button)`
   background-color: #384E77; /* Update the button background color */
   color: #E6F9AF; /* Set the text color to white */
   &:hover {
-    background-color: #8BBEB2; /* Update the button background color on hover */
-    color:#606C38;
+    background-color: #384E77; /* Update the button background color on hover */
+    color:#E6F9AF;
   }
 `;
 const center = {
@@ -54,7 +60,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           fontSize:'13px',
-          fontFamily:'Roboto, Helvetica, sans-serif',
+          fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
           paddingTop:'3px'
         },
       },
@@ -63,7 +69,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           fontSize:'14px',
-          fontFamily:'Roboto, Helvetica, sans-serif'
+          fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
         },
       },
     },MuiPopper:{
@@ -71,17 +77,17 @@ const theme = createTheme({
         root: {
           '& .MuiPickersCalendarHeader-label':{
           fontSize:'14px',
-          fontFamily:'Roboto, Helvetica, sans-serif',
+          fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
           fontWeight:'500'
         },
         '& .MuiPickersMonth-monthButton':{
           fontSize:'14px',
-          fontFamily:'Roboto, Helvetica, sans-serif',
+          fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
           fontWeight:'500'
         },
         '& .MuiPickersYear-yearButton':{
           fontSize:'14px',
-          fontFamily:'Roboto, Helvetica, sans-serif',
+          fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
           fontWeight:'500'
         }
       },
@@ -90,8 +96,9 @@ const theme = createTheme({
     styleOverrides:{
       root:{
         '& .MuiFormControl-root':{
-          margin:'0px'
-          
+          margin:'0px',
+          fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+
         }
       }
     }
@@ -192,10 +199,12 @@ export default function ExploreSectionComponent() {
               type="text"
               label="Location"
               InputProps={{
-                style: { fontSize: '14px',fontFamily:'Roboto, Helvetica, sans-serif'}
+                style: { fontSize: '14px', fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+              }
               }}
               InputLabelProps={{
-                style: { fontSize: '13px' ,fontFamily:'Roboto, Helvetica, sans-serif'},
+                style: { fontSize: '13px' , fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+              },
               }}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -209,15 +218,14 @@ export default function ExploreSectionComponent() {
               
               </GoogleMap>
             </Box> */}
-          <DrowdownComponentNames role={role} eventDetails={EventDetails} 
+          <DropdownComponentNames role={role} eventDetails={EventDetails} 
           setRole={setRole} handleRoleChange={handleRoleChange}/>
             
-          <DrowdownComponentValues role={role} pricing={pricing} eventValues={filterEventValue()}
+          <DropdownComponentValues role={role} pricing={pricing} eventValues={filterEventValue()}
           setPricing={setPricing} handlePricing={handlePricing}/>
 
           <SubmitButton type="submit" fullWidth variant="contained" sx={{
-          fontFamily: 'Lato, sans-serif',
-          fontFamily: 'Montserrat , sans-serif',
+          fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
           fontSize: '14px',
           fontWeight: 'bold',
           width:'7%'

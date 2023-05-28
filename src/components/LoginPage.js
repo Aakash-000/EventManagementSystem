@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import  styled from '@emotion/styled';
-import { Container, Typography, TextField, Button } from '@mui/material';
+import { Container, Typography, TextField, Button, Paper } from '@mui/material';
 import loginimage from '../images/forlogin.jpg'
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 
 const ContainerWrapper = styled('div')`
@@ -10,18 +12,18 @@ const ContainerWrapper = styled('div')`
   align-items: center;
   height: 100vh;
   border-radius: 15px;
-  background-color:#f1f1f1;
+  background-color:#fCfCfC;
 `;
 
 const LeftWrapper = styled('div')({
   display:'flex',
-  flex:0.65,
+  flex:0.55,
   height:'100vh'
 })
 
 const RightWrapper = styled(Container)({
   display:'flex',
-  flex:0.35,
+  flex:0.45,
   flexDirection:'row',
   justifyContent:'center'
 })
@@ -32,27 +34,26 @@ const FormWrapper = styled('form')`
   padding: 16px;
   background-color: #ffffff;
   border-radius: 15px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  // box-shadow: 0px 0.5px 10px 0px rgba(0, 0, 0, 0.2);
 `;
 
-const Title = styled(Typography)`
-  margin-bottom: 16px;
-  text-align: center;
-  font-family: 'Helvetica', Arial, sans-serif;
-  font-size: 18px;
-`;
+const Title = styled(Typography)({
+  marginBottom: '16px',
+  textAlign: 'center',
+  fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+  fontSize: '18px',
+  fontWeight:'600'
+});
 
 const Content = styled.div`
   font-size: 14px;
 `;
 
-const CustomTextField = styled(TextField)`
-  && {
-    font-family: 'Arial', sans-serif;
-    font-size: 15px;
-    font-weight: bold;
-  }
-`;
+const CustomTextField = styled(TextField)({
+    fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+    fontSize: '15px',
+    fontWeight: 'bold'
+  });
 
 const SubmitButton = styled(Button)`
   margin-top: 24px;
@@ -65,17 +66,23 @@ const SubmitButton = styled(Button)`
 `;
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+  const [state,setState] = useContext(AuthContext);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     // Perform login logic here
+    setState({...state,isofType:"ADMIN"})
+    navigate("/dashboard/preview")
   };
 
   return (
     <ContainerWrapper component="main">
       <LeftWrapper>
-      <img src={loginimage} style={{width:'100%',backgroundSize:'object-fit'}} alt="Login"/>
+      <img src={loginimage} loading='lazy' style={{width:'100%',backgroundSize:'object-fit'}} alt="Login"/>
       </LeftWrapper>
       <RightWrapper>
+       <Paper elevation={12}>
       <FormWrapper onSubmit={handleSubmit}>
         <Title variant="h5">Login</Title>
         <Content>
@@ -87,11 +94,16 @@ const LoginPage = () => {
             label="Email Address"
             type="email"
             InputProps={{
-                style: { fontSize: '14px',fontFamily:'Helvetica'},
+                style: { fontSize: '14px',
+                fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+              },
                 inputProps: { style: { fontSize: '14px' } }
               }}
               InputLabelProps={{
-                style: { fontSize: '13px' ,fontFamily:'Helvetica'},
+                style: { fontSize: '13px' ,
+                fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+
+              },
               }}
             name="email"
             autoComplete="email"
@@ -105,11 +117,15 @@ const LoginPage = () => {
             label="Password"
             type="password"
             InputProps={{
-                style: { fontSize: '14px',fontFamily:'Helvetica'},
+                style: { fontSize: '14px',
+                fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+
+              },
                 inputProps: { style: { fontSize: '14px' } }
               }}
               InputLabelProps={{
-                style: { fontSize: '13px' ,fontFamily:'Helvetica'},
+                style: { fontSize: '13px' ,fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+              }
               }}
             name="password"
             
@@ -122,8 +138,8 @@ const LoginPage = () => {
           fullWidth
           variant="contained"
           sx={{
-            fontFamily: 'Lato, sans-serif',
-            fontFamily: 'Montserrat , sans-serif',
+            fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+
             fontSize: '14px',
             fontWeight: 'bold',
           }} 
@@ -132,6 +148,7 @@ const LoginPage = () => {
           Sign In
         </SubmitButton>
       </FormWrapper>
+      </Paper> 
       </RightWrapper>
     </ContainerWrapper>
   );

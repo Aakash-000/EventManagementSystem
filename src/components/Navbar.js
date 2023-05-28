@@ -20,17 +20,17 @@ const Logo = styled(Event)`
   color: #ffffff;
 `;
 
-const NavLink = styled(Button)`
-  color: #ffffff;
-  font-family: 'Arial', sans-serif;
-  font-weight: bold;
-  text-transform: none;
-  height:64px;
-  border-radius:0px;
-  &:hover {
-    color: #E9C46A;
+const NavLink = styled(Button)({
+  color: '#ffffff',
+  fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif',
+  fontWeight: 'bold',
+  textTransform: 'none',
+  height:'64px',
+  borderRadius:'0px',
+  '&:hover':{
+    color: '#E9C46A',
   }
-`;
+});
 
 const DropdownContainer = styled(Box)`
   position: relative;
